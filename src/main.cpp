@@ -30,8 +30,9 @@ int main() {
 
 
   // Initializations
-  Fibonacci fib( window.getSize().x, window.getSize().y, 10. );
+  Fibonacci fib( window.getSize().x, window.getSize().y, 30. );
   fib.generateSequence();
+  fib.generateVisuals();
 
 
   while( window.isOpen() ) {
@@ -47,7 +48,7 @@ int main() {
 
 
     // DRAWINGS
-
+    window.draw(fib);
       
     window.display();   
 
