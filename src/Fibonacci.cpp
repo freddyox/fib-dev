@@ -41,10 +41,13 @@ void Fibonacci::generateVisuals() {
  
   sf::Vector2f origin( displayx/2.0, displayy/2.0 );
   sf::Vector2f offset(0,0);
+  sf::Vector2f totaloffset(0,0);
   
-  for( int i=0; i<271; i++ ) {
+  for( int i=0; i<180; i++ ) {
     if( i%90==0 && i > 0) { 
       count++;
+      offset = sf::Vector2f(sequence[count-2], 0);
+
       first = false;
     }
 
@@ -67,7 +70,7 @@ void Fibonacci::generateVisuals() {
     }
 
     if( Xdirection && !first) {
-      offset = sf::Vector2f( sequence[count-2], 0 );
+      //offset = sf::Vector2f( sequence[count-2], 0 );
       sf::Vector2f Xtemp( -sequence[count]*sin(i*conv), sequence[count]*cos(i*conv) );
       sf::Vector2f placeX = origin + Xtemp + offset;
 	  
@@ -77,7 +80,7 @@ void Fibonacci::generateVisuals() {
     }    
       
     if( Ydirection && !first) {
-      offset = sf::Vector2f( sequence[count-3], sequence[count-2] );
+      //offset = sf::Vector2f( sequence[count-3], sequence[count-2] );
 
       sf::Vector2f Ytemp( -sequence[count]*sin(i*conv), sequence[count]*cos(i*conv) );
       sf::Vector2f placeY = origin + Ytemp + offset;
@@ -86,6 +89,24 @@ void Fibonacci::generateVisuals() {
       visuals.push_back( circle );
 	
     }
+  }
+}
+
+void Fibonacci::Approximation() {
+  float b = 0.0053468;
+  sf::Vector2f origin( displayx/2.0, displayy/2.0 );
+
+  for(int i=0; i<2000; i++){
+    float x = 0.10*cos(i*conv)*exp(b*i);
+    float y = 0.10*sin(i*conv)*exp(b*i);
+    sf::Vector2f position( x, y );
+    sf::Vector2f temp = origin+position;
+    
+   
+    circle.setFillColor( sf::Color((2*i)%255,(5*i)%255,(3*i)%255 ));
+    circle.setPosition( temp.x, temp.y );
+    visuals.push_back(circle);
+    
   }
 }
 

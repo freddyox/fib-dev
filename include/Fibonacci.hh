@@ -27,6 +27,7 @@ public:
   void draw(sf::RenderTarget&, sf::RenderStates) const;
   void generateSequence();
   void generateVisuals();
+  void Approximation();
 
 };
 #endif

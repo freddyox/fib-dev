@@ -32,7 +32,8 @@ int main() {
   // Initializations
   Fibonacci fib( window.getSize().x, window.getSize().y, 30. );
   fib.generateSequence();
-  fib.generateVisuals();
+  //fib.generateVisuals();
+  fib.Approximation();
 
 
   while( window.isOpen() ) {
