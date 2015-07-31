@@ -19,6 +19,8 @@ Fibonacci::Fibonacci(float width, float height, float maximum) {
   plusorminusY = 0;
   n_minus_one = 1;
   n_minus_two = 0;
+  sequence.push_back(0.0);
+  sequence.push_back(0.0);
   sequence.push_back(n_minus_one);
 }
 
@@ -32,73 +34,59 @@ void Fibonacci::generateSequence() {
 }
 
 void Fibonacci::generateVisuals() {
-  int count=5;
+  int count = 7; //0,0,1,1,2,3,5,8,13,21,34........
   bool Xdirection = true;
   bool Ydirection = false;
-
-  std::cout << sequence[5] << " " << pow(-1,plusorminusX)*sequence[count] << std::endl;
-
+  bool first = true;
+ 
   sf::Vector2f origin( displayx/2.0, displayy/2.0 );
   sf::Vector2f offset(0,0);
-
-  for( int i=0; i<360; i++ ) {
-    float Rtemp = sequence[count];
-
+  
+  for( int i=0; i<271; i++ ) {
     if( i%90==0 && i > 0) { 
       count++;
-      // Xdirection = true;
-      // Ydirection = false;
+      first = false;
     }
 
     if( i%180 == 0 && i > 0) {
-      std::cout << "here" << std::endl;
       plusorminusX++;
       Xdirection = false;
       Ydirection = true;
-
     }
+
     if( i%270==0 && i > 0 ) {
       Xdirection = true;
       Ydirection = false;
     }
-    //if( i%5==0 ) {
-      if( Xdirection ) {
-	offset = sf::Vector2f( pow(-1,plusorminusX)*sequence[count], 0 );
-	// if( plusorminusX==1){
-	//   offset = sf::Vector2f( pow(-1,plusorminusX)*sequence[count-3], 0 );
-	// }
-	std::cout << offset.x << " " << plusorminusX << std::endl;
+    
+    if( first ) {
+      sf::Vector2f Xtemp( -sequence[count]*sin(i*conv), sequence[count]*cos(i*conv) );
+      sf::Vector2f placeX = origin + Xtemp + offset;	  
+      circle.setPosition( placeX.x, placeX.y); 
+      visuals.push_back( circle );
+    }
 
-	sf::Vector2f Xtemp( -1*sequence[count]*sin(i*conv),sequence[count]*cos(i*conv) );
-	sf::Vector2f placeX = origin + Xtemp + offset;
-
-	circle.setPosition( placeX.x, placeX.y); 
-	visuals.push_back( circle );
-      }    
+    if( Xdirection && !first) {
+      offset = sf::Vector2f( sequence[count-2], 0 );
+      sf::Vector2f Xtemp( -sequence[count]*sin(i*conv), sequence[count]*cos(i*conv) );
+      sf::Vector2f placeX = origin + Xtemp + offset;
+	  
+      circle.setPosition( placeX.x, placeX.y); 
+      //circle.setFillColor(sf::Color( (2*i)%255,i%255,(3*i)%255));
+      visuals.push_back( circle );
+    }    
       
-      if( Ydirection ) {
-	offset=sf::Vector2f( sequence[count-1], sequence[count-2] );
+    if( Ydirection && !first) {
+      offset = sf::Vector2f( sequence[count-3], sequence[count-2] );
 
-	//std::cout << offset.x << " " << plusorminusX << std::endl;
+      sf::Vector2f Ytemp( -sequence[count]*sin(i*conv), sequence[count]*cos(i*conv) );
+      sf::Vector2f placeY = origin + Ytemp + offset;
 
-	sf::Vector2f Ytemp( -1*sequence[count]*sin(i*conv), sequence[count]*cos(i*conv) );
-	sf::Vector2f placeY = origin + Ytemp + offset;
-
-	circle.setPosition( placeY.x, placeY.y); 
-	visuals.push_back( circle );
+      circle.setPosition( placeY.x, placeY.y); 
+      visuals.push_back( circle );
 	
-      }
-      //}
+    }
   }
-  
-  
-  
-  // for( it = sequence.begin(); it != sequence.end(); it++ ){
-  //   sf::Vector2f size( *it,*it );
-  //   square.setSize( size );
-  //   square.setFillColor(sf::Color::Red);
-  //   //quare.setPosition( );
-  // }
 }
 
 void Fibonacci::draw(sf::RenderTarget& target, sf::RenderStates) const {
