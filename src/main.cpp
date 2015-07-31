@@ -9,6 +9,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <set>
 
 #include "../include/Fibonacci.hh"
 
@@ -35,18 +36,21 @@ int main() {
   Fibonacci fib( window.getSize().x, window.getSize().y, 30. );
   fib.generateSequence();
   fib.generateVisuals();
-  //fib.Approximation();
+  fib.Approximation();
   
   // Text
   sf::Text text;
   sf::Font font;
+  std::set<std::string> stringset;
+  std::set<std::string>::iterator it;
+
   if( !font.loadFromFile("fonts/arial.ttf")) {
     std::cerr << "ERROR: Font did not load properly." << std::endl;
   }
-  std::string temp;
+  std::string temp,total;
   text.setFont(font);
   text.setColor( sf::Color::Blue );
-  text.setCharacterSize(30);
+  text.setCharacterSize(50);
   text.setPosition(0.25*1000,0.25*1000);
 
   while( window.isOpen() ) {
@@ -62,9 +66,11 @@ int main() {
     // UPDATING
     if( clicker < 1267 ) {
       fib.generateAnimation(clicker);
-      temp = fib.getFibonacciString();
     }
+
+    temp = fib.getFibonacciString();
     text.setString( temp );
+
     // DRAWINGS
     window.draw(fib);
     window.draw(text);

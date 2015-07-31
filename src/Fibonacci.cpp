@@ -150,6 +150,7 @@ void Fibonacci::generateAnimation(int theta) {
   sf::Vector2f temp(0,0);
   sf::Vector2f temp1(0,0);
   sf::Vector2f total(0,0);
+
   sweep.setFillColor( sf::Color::Red );
   if(theta<90) {
     size = sf::Vector2f(width,sequence[startingPoint]);
@@ -162,13 +163,15 @@ void Fibonacci::generateAnimation(int theta) {
     bottom.setPosition(total);
     visualsBottom.push_back(bottom);
 
-    std::ostringstream temp;
-    temp << sequence[startingPoint];
-    counterString= temp.str();
+    //if(first) {
+      std::ostringstream temp;
+      temp << sequence[startingPoint];
+      counterString= temp.str();
+      first = false;
+      //}
   }
 
   if( theta % 90 == 0 && theta > 0 ) {
-    first = false;
     counter++;
     size = sf::Vector2f(width,sequence[startingPoint + counter]);
     sweep.setSize(size);
